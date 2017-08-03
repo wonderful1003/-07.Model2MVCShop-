@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+		
+<mapper namespace="ProductMapper">
+	
+		<resultMap id="productSelectMap" type="Product">
+			<result property="fileName" 	column="IMAGE_FILE" 					jdbcType="VARCHAR"/>
+			<result property="manuDate" 	column="MANUFACTURE_DAY" 	jdbcType="VARCHAR"/>
+			<result property="price" 			column="PRICE" 								jdbcType="INTEGER"/>
+			<result property="prodDetail" 	column="PROD_DETAIL" 				jdbcType="VARCHAR"/>
+			<result property="prodName"	column="PROD_NAME" 					jdbcType="VARCHAR"/>
+			<result property="prodNo" 		column="PROD_NO" 						jdbcType="INTEGER"/>
+			<result property="regDate" 		column="REG_DATE" 						jdbcType="DATE"/>
+		</resultMap>
+		
+	<insert id="addProduct" parameterType="product">
+			INSERT
+			INTO product(image_file, manufacture_day, price, prod_detail, prod_name, prod_no, reg_date)
+			VALUES ( #{fileName}, #{manuDate}, #{price:INTEGER}, #{prodDetail},
+								#{prodName}, seq_product_prod_no.nextval, SYSDATE)
+		</insert>
+		
+	<select id="getProduct" parameterType="string" resultMap="productSelectMap">
+			SELECT
+			prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
+			FROM product
+			WHERE prod_no = #{value}
+		</select>
+		
+ 			
+		<update id="updateProduct" parameterType="product">
+			UPDATE Product
+			<set>
+					PROD_NAME = #{prodName},
+					IMAGE_FILE = #{fileName} ,
+					MANUFACTURE_DAY = #{manuDate}, 
+					PROD_DETAIL = #{prodDetail} ,
+					PRICE = #{price:INTEGER}						
+			</set>
+			WHERE prod_no = #{prodNo}
+		</update>
+		
+		
+		<delete id="removeProduct" parameterType="java.lang.String">
+			DELETE
+			FROM product
+			WHERE prodNo=#{value}
+		</delete>
+
+ 		<sql id="select-product">
+			SELECT
+			prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
+			FROM product
+		</sql>
+		
+		<sql id="orderby-prodNo-desc">
+			ORDER BY prod_No DESC
+		</sql>
+		
+	<!-- SQL : SELECT LIST -->
+	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT prod_no , prod_name , prod_detail, reg_date, price
+											FROM product
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				prod_name = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				prod_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				price = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY prod_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+			
+		
+			
+<!-- 			<where>
+				<choose>
+					<when test=" searchCondition=='0' ">
+						<if test="prodNo.size != 0">
+							prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
+							<foreach item="value" collection="prodNo" open="(" separator="," close=")">
+								#{value}
+							</foreach>
+						</if>
+					</when>
+					<when test=" searchCondition=='1' ">
+						<if test="productName[0] != null">
+							prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
+							<foreach item="value" collection="prodName" open="(" separator="," close=")">
+								#{value}
+							</foreach>
+						</if>
+					</when>
+				</choose>
+			</where>
+			<include refid="orderby-prodNo-desc"/>
+		</select> -->
+ 
+ 
+ 	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT PROD_NO , PROD_NAME , PRICE
+						FROM product
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 				prod_name = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 				prod_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 2 and searchKeyword !='' ">
+										price = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+ 
+</mapper>
