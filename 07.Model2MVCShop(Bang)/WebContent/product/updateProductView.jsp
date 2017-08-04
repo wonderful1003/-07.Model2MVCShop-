@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
     
-<%@ page import="com.model2.mvc.service.domain.*" %>
-
-  <%
-	Product product=(Product)request.getAttribute("product");
-%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -17,7 +13,7 @@
 </script>
 
 <script type="text/javascript">
-<!--
+
 function fncAddProduct(){
 	//Form 유효성 검증
  	var name = document.detailForm.prodName.value;
@@ -42,10 +38,10 @@ function fncAddProduct(){
 		return;
 	}
 		
-	document.detailForm.action='/updateProduct.do';
+	document.detailForm.action='/product/updateProduct';
 	document.detailForm.submit();
 }
--->
+
 </script>
 </head>
 

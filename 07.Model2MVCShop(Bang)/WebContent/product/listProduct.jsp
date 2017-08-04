@@ -23,7 +23,7 @@ function fncGetList(currentPage){
 		<body bgcolor="#ffffff" text="#000000">
 		<div style="width:98%; margin-left:10px;">
 			
-			<form name="detailForm" action="/listProduct.do?menu=${param.menu }" method="post">
+			<form name="detailForm" action="/product/listProduct?menu=${param.menu }" method="post">
 			
 			<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 				<tr>
@@ -113,7 +113,7 @@ function fncGetList(currentPage){
 						${product.prodName}
 					</c:if>
 				<c:if test="${product.proTranCode eq ''}"> --%>
-				<a href="/getProduct.do?prodNo=${product.prodNo}&menu=${param.menu }">${product.prodName}</a></td>
+				<a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu }">${product.prodName}</a></td>
 			<%-- 	</c:if> --%>
 			<td></td>
 			<td align="left">${ product.price }</td>
@@ -127,7 +127,7 @@ function fncGetList(currentPage){
 				<c:if test="${!empty menu && menu eq 'manage' }">
 					<c:choose>
 						<c:when test="${product.proTranCode eq 1 }">
-							구매완료 / <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+							구매완료 / <a href="/product/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
 						</c:when>
 						<c:when test="${product.proTranCode eq 2 }">
 							배송중

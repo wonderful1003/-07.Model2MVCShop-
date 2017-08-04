@@ -36,7 +36,7 @@
 		return;
 	}
 
-	document.detailForm.action='/addProduct.do';
+	document.detailForm.action='/product/addProduct';
 	document.detailForm.submit();
 }
 

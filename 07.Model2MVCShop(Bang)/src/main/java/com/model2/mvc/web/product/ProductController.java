@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +24,7 @@ import com.model2.mvc.service.product.ProductService;
 
 //==> 회원관리 Controller
 @Controller
+@RequestMapping("/product/*")
 public class ProductController {
 	
 	///Field
@@ -46,10 +48,10 @@ public class ProductController {
 	int pageSize;
 	
 	
-	@RequestMapping("/addProductView.do")
+	@RequestMapping(value="addProductView", method=RequestMethod.GET)
 	public ModelAndView addProductView() throws Exception {
 
-		System.out.println("/addProductView.do");
+		System.out.println("/addProductView");
 				
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/product/addProductView");
@@ -57,10 +59,10 @@ public class ProductController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/addProduct.do")
+	@RequestMapping(value="addProduct", method=RequestMethod.POST)
 	public ModelAndView addProduct( @ModelAttribute("product") Product product ) throws Exception {
 
-		System.out.println("/addProduct.do");
+		System.out.println("/addProduct");
 		
 		product.setManuDate(product.getManuDate().replaceAll("-",""));		
 		
@@ -76,12 +78,12 @@ public class ProductController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/getProduct.do")
+	@RequestMapping( value="getProduct", method=RequestMethod.GET)
 	public ModelAndView getProduct( @RequestParam("prodNo") int prodNo ,
 																@RequestParam(value="menu",defaultValue="") String menu ,
 																Model model ) throws Exception {
 		
-		System.out.println("/getProduct.do");
+		System.out.println("/getProduct");
 		System.out.println("prodNo는 나야나"+prodNo);
 		System.out.println("model은 나야나"+model);
 		//Business Logic
@@ -96,7 +98,8 @@ public class ProductController {
 		
 		if(menu!=""){
 			if(menu.equals("manage")){
-				modelAndView.setViewName("/product/updateProductView.jsp");
+//				modelAndView.setViewName("/product/updateProductView.jsp");
+				modelAndView.setViewName("/product/updateProduct");
 				return modelAndView;
 			}
 		}
@@ -104,41 +107,43 @@ public class ProductController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/updateProductView.do")
-	public ModelAndView updateProductView( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
+	@RequestMapping(value="updateProduct", method=RequestMethod.GET)
+	public ModelAndView updateProduct( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
 
-		System.out.println("/updateProductView.do");
+		System.out.println("/updateProductView");
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/product/updateProduct.jsp");
+		modelAndView.setViewName("/product/updateProductView.jsp");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping("/updateProduct.do")
+	@RequestMapping(value="updateProduct", method=RequestMethod.POST)
 	public ModelAndView updateProduct( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
 
-		System.out.println("/updateProduct.do");
+		System.out.println("/updateProduct");
 		//Business Logic
 		System.out.println("product 나야나 "+product);
 		
 		productService.updateProduct(product);
 		
+		//model.addAttribute("product", product.getProdNo());
+		System.out.println("product 수정후 나야나 "+product.getProdNo());
+		
 		ModelAndView modelAndView = new ModelAndView();
-				
-		modelAndView.setViewName("/getProduct.do?="+product.getProdNo());
+		modelAndView.setViewName("/product/getProduct.jsp");
 		
 		return modelAndView;
 	}
 			
-	@RequestMapping("/listProduct.do")
+	@RequestMapping(value="listProduct")
 	public ModelAndView listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
-		System.out.println("/listProduct.do");
+		System.out.println("/listProduct");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
