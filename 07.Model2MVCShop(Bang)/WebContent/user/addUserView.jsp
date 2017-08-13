@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page pageEncoding="EUC-KR"%>
 
 <html>
 <head>

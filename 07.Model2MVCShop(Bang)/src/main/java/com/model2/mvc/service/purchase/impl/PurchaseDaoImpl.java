@@ -1,6 +1,9 @@
-package com.model2.mvc.service.product.impl;
+package com.model2.mvc.service.purchase.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,34 +11,34 @@ import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.ProductDAO;
+import com.model2.mvc.service.purchase.PurchaseDAO;
 
-@Repository("productDaoImpl")
-public class ProductDaoImpl implements ProductDAO{
+@Repository("purchaseDaoImpl")
+public class PurchaseDaoImpl implements PurchaseDAO{
 
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
-	
-	public void setSqlSession(SqlSession sqlSession) {
+		public void setSqlSession(SqlSession sqlSession) {
 		System.out.println("::"+getClass()+".sqlSqlSession() 콜");
 		this.sqlSession = sqlSession;
 	}
 
-	public ProductDaoImpl() {
-		System.out.println("::"+getClass()+".ProductDaoImpl() 생성자 콜");
+	public PurchaseDaoImpl() {
+		System.out.println("::"+getClass()+"purchaseDaoImpl() 생성자 콜");
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public int addProduct(Product product) throws Exception {
-		System.out.println("productdaoimpl");
-		return sqlSession.insert("ProductMapper.addProduct",product);
+	public int addPurchase(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
-		
+		System.out.println("purchaseDaoImpl");
+		return sqlSession.insert("PurchaseMapper.addPurchase", purchase);
 	}
 
-	@Override
+
 	public Product findProduct(int prodNo) throws Exception {
 		// TODO Auto-generated method stub
 		return (Product)sqlSession.selectOne("ProductMapper.getProduct", prodNo);
@@ -46,14 +49,14 @@ public class ProductDaoImpl implements ProductDAO{
 		return sqlSession.selectList("ProductMapper.getProductList", search);
 	}
 
-	@Override
+
 	public void updateProduct(Product product) throws Exception {
 		// TODO Auto-generated method stub
 		sqlSession.update("ProductMapper.updateProduct",product);
 		
 	}
 
-	@Override
+
 	public String makeCurrentPageSql(String sql, Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -65,4 +68,40 @@ public class ProductDaoImpl implements ProductDAO{
 		return sqlSession.selectOne("ProductMapper.getTotalCount" , search);
 	}
 
+	@Override
+	public Purchase getPurchase(int tranNo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Purchase getPurchaseByProd(int prodNo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HashMap<String, Object> getPurchaseList(Search search, String buyerId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HashMap<String, Object> getSaleList(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void updatePurchase(Purchase purchase) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateTranCode(Purchase purchase) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }

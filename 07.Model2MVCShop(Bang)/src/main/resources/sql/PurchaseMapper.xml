@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+		
+<mapper namespace="PurchaseMapper">
+	
+		<resultMap id="purchaseSelectMap" type="Purchase">
+			<result property="buyer" 				column="BUYER_ID" 						jdbcType="VARCHAR"/>
+			<result property="dlvyAddr" 			column="DEMAILADDR" 				jdbcType="VARCHAR"/>
+			<result property="dlvyDate" 			column="DLVY_DATE" 					jdbcType="DATE"/>
+			<result property="dlvyRequest" 		column="DLVY_REQUEST" 			jdbcType="VARCHAR"/>
+			<result property="orderDate"			column="ORDER_DATA" 				jdbcType="DATE"/>
+			<result property="paymentOption" 	column="PAYMENT_OPTION" 		jdbcType="CHAR"/>
+			<result property="receiverName" 	column="RECEIVER_NAME" 			jdbcType="VARCHAR"/>
+			<result property="receiverPhone" 	column="RECEIVER_PHONE" 		jdbcType="VARCHAR"/>
+			<result property="tranCode" 			column="TRAN_STATUS_CODE" 	jdbcType="VARCHAR"/>
+			<result property="tranNo" 				column="TRAN_NO" 						jdbcType="NUMERIC"/>
+		
+	
+		<association property="buyer"				resultMap="UserMapper.userSelectMap"/>
+		<association property="purchaseProd"	resultMap="ProductMapper.productSelectMap"/>
+		</resultMap>
+		
+		<insert id="addPurchase" parameterType="purchase">
+				INSERT
+				INTO transaction
+				VALUES (  
+								seq_transaction_tran_no.nextval, 
+								#{purchaseProd.prodNo}, 
+							    #{buyer.userId}, 
+							    #{paymentOption:CHAR}, 
+							    #{receiverName:VARCHAR}, 
+							    #{receiverPhone:VARCHAR}, 
+							    #{dlvyAddr:VARCHAR}, 
+							    #{dlvyRequest:VARCHAR}, 
+							    #{tranCode:CHAR},
+							    SYSDATE,
+							    #{dlvyDate,jdbcType=DATE})
+			</insert>
+			
+ 		<select id="getPurchase" parameterType="string" resultMap="purchaseSelectMap">
+				SELECT
+				DEMAILADDR, DLVY_DATE, DLVY_REQUEST, ORDER_DATA, 
+				FROM transaction
+				WHERE tran_no = #{value}
+			</select>
+		
+ 			
+		<update id="updatePurchase" parameterType="purchase">
+			UPDATE Product
+			<set>
+					PROD_NAME = #{prodName},
+					IMAGE_FILE = #{fileName} ,
+					MANUFACTURE_DAY = #{manuDate}, 
+					PROD_DETAIL = #{prodDetail} ,
+					PRICE = #{price:INTEGER}						
+			</set>
+			WHERE prod_no = #{prodNo}
+		</update>
+		
+		
+		<delete id="removePurchase" parameterType="java.lang.String">
+			DELETE
+			FROM product
+			WHERE prodNo=#{value}
+		</delete>
+		
+		<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT prod_no , prod_name , prod_detail, reg_date, price
+											FROM product
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				prod_name = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				prod_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				price = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY prod_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>  
+ 
+	<!-- SQL : SELECT ROW Count -->	 
+<!-- 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT PROD_NO , PROD_NAME , PRICE
+						FROM product
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 				prod_name = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 				prod_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 2 and searchKeyword !='' ">
+										price = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select> 
+ --> 
+</mapper>
