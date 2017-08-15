@@ -1,10 +1,11 @@
 package com.model2.mvc.service.purchase;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
-import com.sun.javafx.collections.MappingChange.Map;
+
 /*
  * 구매관리를 추상화 캡슐화한 PurchaseService Interface (TTL : 7EA)
  */
@@ -35,6 +36,5 @@ public interface PurchaseService {
 	 
 	
 	 
-	
-	 
+		 
 }

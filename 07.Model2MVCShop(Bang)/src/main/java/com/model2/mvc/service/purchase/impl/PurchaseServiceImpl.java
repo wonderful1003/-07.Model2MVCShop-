@@ -2,6 +2,7 @@ package com.model2.mvc.service.purchase.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +13,6 @@ import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseDAO;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.sun.javafx.collections.MappingChange.Map;
 
 @Service("purchaseServiceImpl")
 public class PurchaseServiceImpl implements PurchaseService{
@@ -55,10 +55,14 @@ public class PurchaseServiceImpl implements PurchaseService{
 
 	public Map<String, Object> getPurchaseList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		List<Purchase> list = purchaseDAO.getPurchaseList(search);
-		int totalCount = purchaseDAO.getTotalCount(search);
+		List<Purchase> list = purchaseDAO.getPurchaseList(search); // purchase 객체를 element로 받는 list 생성
+		int totalCount = purchaseDAO.getTotalCount(search);// totalCount는 getTotalCount method를 이용하여 return 된 값을 대입
 		
-		return purchaseDAO.getPurchaseList(search);
+		Map<String, Object> map = new HashMap<String, Object>(); //HashMap
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 
 	public Map<String, Object> getSaleList(Search search) throws Exception {

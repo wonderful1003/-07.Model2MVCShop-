@@ -75,7 +75,7 @@ public class PurchaseDaoImpl implements PurchaseDAO{
 	}
 
 	@Override
-	public HashMap<String, Object> getSaleList(Search search) throws Exception {
+	public Map<String, Object> getSaleList(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

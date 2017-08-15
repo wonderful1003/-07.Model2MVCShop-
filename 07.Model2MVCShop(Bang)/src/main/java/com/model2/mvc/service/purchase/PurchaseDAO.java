@@ -2,6 +2,7 @@ package com.model2.mvc.service.purchase;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
@@ -29,5 +30,5 @@ public interface PurchaseDAO {
 	// 게시판 처리
 	public int getTotalCount(Search search) throws Exception;
 
-	public  HashMap<String, Object> getSaleList(Search search) throws Exception;
+	public  Map<String, Object> getSaleList(Search search) throws Exception;
 }

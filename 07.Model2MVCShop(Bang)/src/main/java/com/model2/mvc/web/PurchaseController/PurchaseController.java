@@ -74,7 +74,7 @@ public class PurchaseController {
 	
 	//@RequestMapping("/addUser.do")
 	@RequestMapping( value="addPurchase", method=RequestMethod.POST )
-	public String addPurchase( @RequestParam("prodNo") String prodNo,
+	public String addPurchase( @RequestParam("prodNo") int prodNo,
 												@RequestParam("buyerId") String buyerId,
 												@ModelAttribute("purchase") Purchase purchase,
 												Model model) throws Exception {
@@ -83,60 +83,74 @@ public class PurchaseController {
 		//Business Logic
 		
 		purchase.setBuyer(userService.getUser(buyerId));
-		int prodNoInt = Integer.parseInt(prodNo);
-		purchase.setPurchaseProd(productService.getProduct(prodNoInt));
+		purchase.setPurchaseProd(productService.getProduct(prodNo));
 		purchase.setTranCode("1");
-		purchaseService.addPurchase(purchase);
+		
 		
 		model.addAttribute("prodNo",prodNo);
 		model.addAttribute("purchase", purchase);
 		model.addAttribute("buyerId", buyerId);
-	
+		purchaseService.addPurchase(purchase);
+		
 		return "forward:/purchase/addPurchase.jsp";
 	}
 	
 	//@RequestMapping("/getUser.do")
-	//@RequestMapping( value="getPurchase", method=RequestMethod.GET )
-	public String getPurchase( @RequestParam("userId") String userId , Model model ) throws Exception {
+	@RequestMapping( value="getPurchase", method=RequestMethod.GET )
+	public String getPurchase( @RequestParam("tranNo") int tranNo , Model model ) throws Exception {
 		
-		System.out.println("/user/getPurchase : GET");
+		System.out.println("/purchase/getPurchase : GET");
 		//Business Logic
-		User user = userService.getUser(userId);
+		Purchase purchase = purchaseService.getPurchase(tranNo);
 		// Model 과 View 연결
-		model.addAttribute("user", user);
+		//purchase.setDivyDate(purchase.getDivyDate().substring(0, 10));
 		
-		return "forward:/purchase/getUser.jsp";
+		model.addAttribute("purchase", purchase);
+		
+		return "forward:/purchase/getPurchase.jsp";
 	}
+	
+	@RequestMapping( value="getPurchaseByProd", method=RequestMethod.GET )
+	public String getPurchaseByProd( @RequestParam("prodNo") int prodNo , Model model ) throws Exception {
+		
+		System.out.println("/purchase/getPurchaseByProd : GET");
+		//Business Logic
+		Purchase purchase = purchaseService.getPurchaseByProd(prodNo);
+		// Model 과 View 연결
+		//purchase.setDivyDate(purchase.getDivyDate().substring(0, 10));
+		
+		model.addAttribute("purchase", purchase);
+		
+		return "forward:/purchase/getPurchase.jsp";
+	}
+
 	
 	//@RequestMapping("/updateUserView.do")
 	//public String updateUserView( @RequestParam("userId") String userId , Model model ) throws Exception{
-	//@RequestMapping( value="updatePurchase", method=RequestMethod.GET )
-	public String updatePurchase( @RequestParam("userId") String userId , Model model ) throws Exception{
+	@RequestMapping( value="updatePurchaseView", method={RequestMethod.GET, RequestMethod.POST })
+	public String updatePurchase( @RequestParam("tranNo") int tranNo , Model model ) throws Exception{
 
-		System.out.println("/purchase/updatePurchase : GET");
+		System.out.println("/purchase/updatePurchaseView ");
 		//Business Logic
-		User user = userService.getUser(userId);
+		Purchase purchase = purchaseService.getPurchase(tranNo);
 		// Model 과 View 연결
-		model.addAttribute("user", user);
+		purchase.setDlvyDate(purchase.getDlvyDate().substring(0, 10).replaceAll("-", ""));
 		
-		return "forward:/purchase/updateUser.jsp";
+		model.addAttribute("purchase", purchase);
+		
+		return "forward:/purchase/updatePurchaseView.jsp";
 	}
 	
 	//@RequestMapping("/updateUser.do")
-	//@RequestMapping( value="updatePurchase", method=RequestMethod.POST )
-	public String updatePurchase( @ModelAttribute("purchase") Purchase purchase , Model model , HttpSession session) throws Exception{
+	@RequestMapping( value="updatePurchase", method=RequestMethod.POST )
+	public String updatePurchase( @ModelAttribute("purchase") Purchase purchase , Model model ) throws Exception{
 
 		System.out.println("/purchase/updatePurchase : POST");
+		
 		//Business Logic
 		purchaseService.updatePurchase(purchase);
 		
-		String sessionId=((User)session.getAttribute("purchase")).getUserId();
-		if(sessionId.equals(purchase.getTranCode())){
-			session.setAttribute("purchase", purchase);
-		}
-		
-		//return "redirect:/getUser.do?userId="+user.getUserId();
-		return "redirect:/purchase/getUser?userId="+purchase.getTranCode();
+		return "redirect:/purchase/getPurchase?tranNo="+purchase.getTranNo();
 	}
 	
 	//@RequestMapping("/loginView.do")
@@ -157,10 +171,7 @@ public class PurchaseController {
 		//Business Logic
 		Purchase dbPurchase = purchaseService.getPurchase(purchase.getTranCode());
 		
-		if( purchase.getPassword().equals(dbPurchase.getPassword())){
-			session.setAttribute("purchase", dbPurchase);
-		}
-		
+	
 		return "redirect:/index.jsp";
 	}
 	
