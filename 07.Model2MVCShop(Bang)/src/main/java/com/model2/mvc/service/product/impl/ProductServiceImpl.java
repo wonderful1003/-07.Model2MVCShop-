@@ -21,8 +21,10 @@ public class ProductServiceImpl implements ProductService{
 	@Qualifier("productDaoImpl")
 	private ProductDAO productDao;
 	
+	///Constructor
 	public ProductServiceImpl() {
 		// TODO Auto-generated constructor stub
+		System.out.println(this.getClass());
 	}
 
 	@Override

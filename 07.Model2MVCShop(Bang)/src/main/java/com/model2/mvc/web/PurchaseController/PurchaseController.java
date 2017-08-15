@@ -151,7 +151,7 @@ public class PurchaseController {
 
 	//@RequestMapping("/login.do")
 	//@RequestMapping( value="updateTranCodeByProd", method=RequestMethod.POST )
-/*	public String updateTranCodeByProd(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
+	public String updateTranCodeByProd(@ModelAttribute("purchsae") Purchase purchase , HttpSession session ) throws Exception{
 		
 		System.out.println("/purchase/updateTranCodeByProd : POST");
 		//Business Logic
@@ -163,7 +163,7 @@ public class PurchaseController {
 		
 		return "redirect:/index.jsp";
 	}
-*/	
+	
 	//@RequestMapping("/listUser.do")
 	//@RequestMapping( value="listPurchase" )
 	public String listPurchase( @ModelAttribute("search") Search search , 

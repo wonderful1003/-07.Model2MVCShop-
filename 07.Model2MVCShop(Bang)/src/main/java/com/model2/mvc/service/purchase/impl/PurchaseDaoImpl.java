@@ -30,60 +30,48 @@ public class PurchaseDaoImpl implements PurchaseDAO{
 		System.out.println("::"+getClass()+"purchaseDaoImpl() 생성자 콜");
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public int addPurchase(Purchase purchase) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("purchaseDaoImpl");
-		return sqlSession.insert("PurchaseMapper.addPurchase", purchase);
-	}
-
-
-	public Product findProduct(int prodNo) throws Exception {
-		// TODO Auto-generated method stub
-		return (Product)sqlSession.selectOne("ProductMapper.getProduct", prodNo);
-	}
 	
-	public List<Product> getProductList(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("ProductMapper.getProductList", search);
-	}
-
-
-	public void updateProduct(Product product) throws Exception {
-		// TODO Auto-generated method stub
-		sqlSession.update("ProductMapper.updateProduct",product);
-		
-	}
-
-
-	public String makeCurrentPageSql(String sql, Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public int getTotalCount(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("ProductMapper.getTotalCount" , search);
-	}
-
+	///Method TTL : 7EA
 	@Override
 	public Purchase getPurchase(int tranNo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("PurchaseMapper.getPurchase", tranNo);
 	}
 
 	@Override
 	public Purchase getPurchaseByProd(int prodNo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("PurchaseMapper.getPurchaseByProd", prodNo);
 	}
 
 	@Override
-	public HashMap<String, Object> getPurchaseList(Search search, String buyerId) throws Exception {
+	public List<Purchase> getPurchaseList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("PurchaseMapper.getPruchaseList", search);
+	}
+
+	@Override
+	public void addPurchase(Purchase purchase) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert("PurchaseMapper.addPurchase", purchase);
+	}
+
+	@Override
+	public void updatePurchase(Purchase purchase) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update("PurchaseMapper.updatePurchase", purchase );
+	}
+
+	@Override
+	public void updateTranCode(Purchase purchase) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update("PurchaseMapper.updateTranCode", purchase );
+	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("PurchaseMapper.getTotalCount", search);
 	}
 
 	@Override
@@ -92,16 +80,11 @@ public class PurchaseDaoImpl implements PurchaseDAO{
 		return null;
 	}
 
-
-	@Override
-	public void updatePurchase(Purchase purchase) throws Exception {
+	
+/*	// 구매가 완료되서 더 이상 팔지 않는 품목들 : 나중에 구현
+	public Map<String, Object> getSaleList(Search search) throws Exception {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateTranCode(Purchase purchase) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+		return null;
+	}*/
 }
+
