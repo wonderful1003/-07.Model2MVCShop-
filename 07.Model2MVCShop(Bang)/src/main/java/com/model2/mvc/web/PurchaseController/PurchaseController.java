@@ -153,43 +153,34 @@ public class PurchaseController {
 		return "redirect:/purchase/getPurchase?tranNo="+purchase.getTranNo();
 	}
 	
-	//@RequestMapping("/loginView.do")
-	//public String loginView() throws Exception{
-	//@RequestMapping( value="updateTranCode", method=RequestMethod.GET )
-	public String updateTranCode() throws Exception{
+	//@RequestMapping("/updatePurchase.do") // '수정' button 누르면, // 주의.....잘보시게....
+	@RequestMapping( value="updateTranCode", method=RequestMethod.GET )
+	public String updateTranCode(@ModelAttribute("purchsae") Purchase purchase, 
+									@RequestParam("prodNo") int prodNo,
+									 Model model ) throws Exception{
 		
 		System.out.println("/purchase/updateTranCode : GET");
-
-		return "redirect:/purchase/loginView.jsp";
-	}
-
-	//@RequestMapping("/login.do")
-	//@RequestMapping( value="updateTranCodeByProd", method=RequestMethod.POST )
-	public String updateTranCodeByProd(@ModelAttribute("purchsae") Purchase purchase , HttpSession session ) throws Exception{
-		
-		System.out.println("/purchase/updateTranCodeByProd : POST");
 		//Business Logic
-		Purchase dbPurchase = purchaseService.getPurchase(purchase.getTranCode());
-		
+		model.addAttribute("menu", "manage");
+		purchase = purchaseService.getPurchaseByProd(prodNo);
+		purchaseService.updateTranCode(purchase);
 	
-		return "redirect:/index.jsp";
+		return "redirect:/product/listProduct";
 	}
 	
-	//@RequestMapping("/listUser.do")
-	//@RequestMapping( value="listPurchase" )
+	@RequestMapping( value="listPurchase" )
 	public String listPurchase( @ModelAttribute("search") Search search , 
 												Model model , HttpServletRequest request) throws Exception{
 		
+		System.out.println("/purchase/listPurchase");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
-		User user = (User)request.getAttribute("user");
-		
+				
 		// Business logic 수행
-		Map<String , Object> map=purchaseService.getPurchaseList(search, user.getUserId());
+		Map<String , Object> map=purchaseService.getPurchaseList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("resultPage"+resultPage);
