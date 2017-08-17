@@ -8,21 +8,46 @@
 <mapper namespace="PurchaseMapper">
 	
 		<resultMap id="purchaseSelectMap" type="Purchase">
-			<result property="buyer" 				column="BUYER_ID" 						jdbcType="VARCHAR"/>
-			<result property="dlvyAddr" 			column="DEMAILADDR" 				jdbcType="VARCHAR"/>
-			<result property="dlvyDate" 			column="DLVY_DATE" 					jdbcType="DATE"/>
-			<result property="dlvyRequest" 		column="DLVY_REQUEST" 			jdbcType="VARCHAR"/>
-			<result property="orderDate"			column="ORDER_DATA" 				jdbcType="DATE"/>
-			<result property="paymentOption" 	column="PAYMENT_OPTION" 		jdbcType="CHAR"/>
-			<result property="receiverName" 	column="RECEIVER_NAME" 			jdbcType="VARCHAR"/>
-			<result property="receiverPhone" 	column="RECEIVER_PHONE" 		jdbcType="VARCHAR"/>
+			<result property="buyerId" 				column="BUYER_ID" 			jdbcType="VARCHAR"/>
+			<result property="dlvyAddr" 			column="DEMAILADDR" 		jdbcType="VARCHAR"/>
+			<result property="dlvyDate" 			column="DLVY_DATE" 			jdbcType="DATE"/>
+			<result property="dlvyRequest" 			column="DLVY_REQUEST" 		jdbcType="VARCHAR"/>
+			<result property="orderDate"			column="ORDER_DATA" 		jdbcType="DATE"/>
+			<result property="paymentOption" 		column="PAYMENT_OPTION" 	jdbcType="CHAR"/>
+			<result property="receiverName" 		column="RECEIVER_NAME" 		jdbcType="VARCHAR"/>
+			<result property="receiverPhone" 		column="RECEIVER_PHONE" 	jdbcType="VARCHAR"/>
 			<result property="tranCode" 			column="TRAN_STATUS_CODE" 	jdbcType="VARCHAR"/>
-			<result property="tranNo" 				column="TRAN_NO" 						jdbcType="NUMERIC"/>
+			<result property="tranNo" 				column="TRAN_NO" 			jdbcType="NUMERIC"/>
+		
+		<association property="buyerId"	 			javaType="user">
+					<id property="userId" 			column="buyer_id" 			jdbcType="VACHAR" />
+				
+				<result property="userName"			column="user_name" 			jdbcType="VARCHAR" />
+				<result property="password" 		column="password" 			jdbcType="VARCHAR" />
+				<result property="role" 			column="role" 				jdbcType="VARCHAR" />
+				<result property="ssn" 				column="ssn" 				jdbcType="VARCHAR" />
+				<result property="phone" 			column="cell_phone" 		jdbcType="VARCHAR" />
+				<result property="addr" 			column="addr" 				jdbcType="VARCHAR" />
+				<result property="email" 			column="email" 				jdbcType="NUMERIC"  />
+				<result property="regDate" 			column="reg_date" 			jdbcType="DATE" />
+			</association>
+			
+	
+		<association property="purchaseProd"	javaType="product">
+				<id property="prodNo"			column="prod_no" 						jdbcType="NUMERIC"/>
+				
+				<result property="fileName" 	column="IMAGE_FILE" 					jdbcType="VARCHAR"/>
+				<result property="manuDate" 	column="MANUFACTURE_DAY" 				jdbcType="VARCHAR"/>
+				<result property="price" 		column="PRICE" 							jdbcType="INTEGER"/>
+				<result property="prodDetail" 	column="PROD_DETAIL" 					jdbcType="VARCHAR"/>
+				<result property="prodName"		column="PROD_NAME" 						jdbcType="VARCHAR"/>
+				<result property="regDate" 		column="REG_DATE" 						jdbcType="DATE"/>
+				<result property="proTranCode" 	column="tran_status_code" 				jdbcType="VARCHAR"/>
+		</association>
+	
+		</resultMap>
 		
 	
-		<association property="buyer"				resultMap="UserMapper.userSelectMap"/>
-		<association property="purchaseProd"	resultMap="ProductMapper.productSelectMap"/>
-		</resultMap>
 		
 		<insert id="addPurchase" parameterType="purchase">
 				INSERT
@@ -68,47 +93,33 @@
 			WHERE prodNo=#{value}
 		</delete>
 		
-		<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT prod_no , prod_name , prod_detail, reg_date, price
-											FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				prod_name = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_no = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				price = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY prod_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>  
+<!--  map으로 바꿔주기 -->
+  	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
+  		SELECT *
+  		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
+  						FROM ( 
+  										SELECT *
+  										FROM transaction
+  										<if test="buyerId !='admin' ">
+  										<!-- <if test="buyerId !='admin' "> -->
+										WHERE buyer_id = #{buyerId}									
+										</if>
+  										ORDER BY tran_no ) inner_table
+  						WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+					 <!-- WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} --> 
+  	</select>
  
 	<!-- SQL : SELECT ROW Count -->	 
-<!-- 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="Search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT PROD_NO , PROD_NAME , PRICE
-						FROM product
-						<if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 				prod_name = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 				prod_no = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 2 and searchKeyword !='' ">
-										price = #{searchKeyword}
-								</if>
-							</where>
-						</if> ) countTable						
-	 </select> 
- --> 
+	  	FROM(	SELECT *
+						FROM transaction 
+						<!-- <if test="#{buyerId}!='admin' "> -->
+						<if test="searchKeyword !='admin' ">
+						WHERE buyer_id=	#{searchKeyword,jdbcType=VARCHAR} 
+						</if>
+						) countTable						  	
+	 </select>
 </mapper>

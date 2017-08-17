@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class Purchase {
 	
-	private User buyer;
+	private User buyerId;
 	private String dlvyAddr;
 	private String dlvyDate;
 	private String dlvyRequest;
@@ -20,11 +20,11 @@ public class Purchase {
 	public Purchase(){
 	}
 	
-	public User getBuyer() {
-		return buyer;
+	public User getBuyerId() {
+		return buyerId;
 	}
-	public void setBuyer(User buyer) {
-		this.buyer = buyer;
+	public void setBuyerId(User buyerId) {
+		this.buyerId = buyerId;
 	}
 	public String getDlvyAddr() {
 		return dlvyAddr;
@@ -89,7 +89,7 @@ public class Purchase {
 	
 	@Override
 	public String toString() {
-		return "PurchaseVO [buyer=" + buyer + ", dlvyAddr=" + dlvyAddr
+		return "PurchaseVO [buyerId=" + buyerId + ", dlvyAddr=" + dlvyAddr
 				+ ", dlvyDate=" + dlvyDate + ", dlvyRequest=" + dlvyRequest
 				+ ", orderDate=" + orderDate + ", paymentOption="
 				+ paymentOption + ", purchaseProd=" + purchaseProd

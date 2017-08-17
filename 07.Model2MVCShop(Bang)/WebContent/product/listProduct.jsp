@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ 
     
 <html>
 <head>
@@ -111,30 +112,37 @@ function fncGetList(currentPage){
 				<a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu }">${product.prodName}</a></td>
 
 			<td></td>
-			<td align="left">${ product.price }</td>
+			<td align="Right">${ product.price } 원 </td>			
 			<td></td>
-			<td align="left">${product.regDate}</td>
+			<td align="Center">${product.regDate}</td>
 			<td></td>		
-			<td align="left">
-				<c:if test="${!empty menu && menu eq 'search' }">
-				${product.proTranCode ne '' ? "재고없음" : "판매중" }
+			
+			<td align="center">	
+		
+				<c:if test="${empty product.proTranCode}">
+						판매중
 				</c:if>
-				<c:if test="${!empty menu && menu eq 'manage' }">
-					<c:choose>
-						<c:when test="${product.proTranCode eq 1 }">
-							구매완료 / <a href="/product/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
-						</c:when>
-						<c:when test="${product.proTranCode eq 2 }">
-							배송중
-						</c:when>
-						<c:when test="${product.proTranCode eq 3 }">
-							배송완료
-						</c:when>
-						<c:otherwise>
-						 	판매중
-					 	</c:otherwise>
-					</c:choose>
-				</c:if>
+				<c:if test="${!empty product.proTranCode}">
+				
+					<c:if test="${sessionScope.user.role=='admin'}">
+						<c:choose >
+							<c:when test="${product.proTranCode=='1  ' }">
+								구매완료 &nbsp; <a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+							</c:when>
+	
+							<c:when test="${product.proTranCode=='2  ' }">
+								배송중 
+							</c:when>
+							<c:otherwise>
+								배송완료
+							</c:otherwise>
+						</c:choose>				
+						</c:if>	
+							
+						<c:if test="${empty sessionScope.user || sessionScope.user.role=='user'}">
+							재고없음
+						</c:if>	
+					</c:if>
 		</td>
 	</tr>
 	<tr>

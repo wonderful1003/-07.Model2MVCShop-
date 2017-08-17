@@ -77,7 +77,7 @@
 														  p.prod_no = t.prod_no(+)
 														<if test="searchCondition!=null " >
 															<if test="searchCondition==0  and searchKeyword !=''  and searchKeyword != null">
-																	AND p.prod_name	like '%#{searchKeyword}%'
+																	AND p.prod_name	like '%${searchKeyword}%'
 															</if> 
 															<if test="searchCondition==1   and searchKeyword !=''  and searchKeyword != null ">
 																	AND p.prod_no = #{searchKeyword}

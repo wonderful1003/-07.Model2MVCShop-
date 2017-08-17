@@ -82,7 +82,7 @@ public class PurchaseController {
 		System.out.println("/purchase/addPurchase : POST");
 		//Business Logic
 		
-		purchase.setBuyer(userService.getUser(buyerId));
+		purchase.setBuyerId(userService.getUser(buyerId));
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
 		purchase.setTranCode("1");
 		
@@ -170,26 +170,35 @@ public class PurchaseController {
 	
 	@RequestMapping( value="listPurchase" )
 	public String listPurchase( @ModelAttribute("search") Search search , 
-												Model model , HttpServletRequest request) throws Exception{
+												Model model , HttpSession session) throws Exception{
 		
-		System.out.println("/purchase/listPurchase");
+		System.out.println("/purchase/listPurchase :GET");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-				
-		// Business logic 수행
-		Map<String , Object> map=purchaseService.getPurchaseList(search);
+		
+		User user = (User) session.getAttribute("user");
+		System.out.println(" user :" + user);
+		System.out.println(user.getUserId());
+		System.out.println(search);
+		
+		search.setSearchKeyword(user.getUserId());
+		Map<String , Object> map=purchaseService.getPurchaseList(search, user.getUserId());
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println("resultPage"+resultPage);
+		System.out.println("resultPage : " +resultPage);
 		
-		// Model 과 View 연결
+		System.out.println("buyerId" + user.getUserId());
+		System.out.println("search" + search);
+		
+		model.addAttribute("buyerId", user.getUserId());
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		
+
 		return "forward:/purchase/listPurchase.jsp";
+	
 	}
 }

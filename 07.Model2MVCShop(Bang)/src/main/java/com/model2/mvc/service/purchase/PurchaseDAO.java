@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 
 public interface PurchaseDAO {
 	
@@ -16,7 +17,7 @@ public interface PurchaseDAO {
 	public  Purchase getPurchaseByProd(int prodNo) throws Exception; 
 	
 	// 구매 item 목록
-	public  List<Purchase> getPurchaseList(Search search) throws Exception;
+	public  List<Purchase> getPurchaseList(Map<String, Object> map) throws Exception;
 	
 	// item 구매 추가
 	public void addPurchase(Purchase purchase) throws Exception; 

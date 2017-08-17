@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductDAO;
 import com.model2.mvc.service.purchase.PurchaseDAO;
 
@@ -45,9 +46,10 @@ public class PurchaseDaoImpl implements PurchaseDAO{
 	}
 
 	@Override
-	public List<Purchase> getPurchaseList(Search search) throws Exception {
+	public List<Purchase> getPurchaseList(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("PurchaseMapper.getPruchaseList", search);
+		System.out.println("purchaseDaoImpl :" + map);
+		return sqlSession.selectList("PurchaseMapper.getPurchaseList", map);
 	}
 
 	@Override

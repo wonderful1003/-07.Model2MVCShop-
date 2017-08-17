@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 
 /*
  * 구매관리를 추상화 캡슐화한 PurchaseService Interface (TTL : 7EA)
@@ -28,7 +29,7 @@ public interface PurchaseService {
 	public  void updateTranCode(Purchase purchase)  throws Exception;
 	
 	// 구매 item 목록
-	public  Map<String, Object> getPurchaseList(Search search) throws Exception;
+	public  Map<String, Object> getPurchaseList(Search search, String buyerId) throws Exception;
 	
 	//
 	public  Map<String, Object> getSaleList(Search search) throws Exception; 
