@@ -1,4 +1,4 @@
-package com.model2.mvc.web.PurchaseController;
+package com.model2.mvc.web.Purchase;
 
 import java.util.Map;
 

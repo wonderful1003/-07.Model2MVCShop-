@@ -4,7 +4,6 @@
     
 <html>
 <head>
-<!-- <title>상품 목록조회</title> -->
 
 <title>${param.menu eq 'search' ? "상품 목록조회" : "상품 관리"}</title>
 
@@ -23,7 +22,7 @@ function fncGetList(currentPage){
 		<body bgcolor="#ffffff" text="#000000">
 		<div style="width:98%; margin-left:10px;">
 			
-			<form name="detailForm" action="/product/listProduct?menu=${param.menu }" method="post">
+			<form name="detailForm" action="/product/listProduct" method="post">
 			
 			<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 				<tr>
@@ -109,12 +108,8 @@ function fncGetList(currentPage){
 			<td align="center">${ i }</td>
 			<td></td>
 			<td align="left">
-<%-- 				<c:if test="${product.proTranCode ne ''}">
-						${product.prodName}
-					</c:if>
-				<c:if test="${product.proTranCode eq ''}"> --%>
 				<a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu }">${product.prodName}</a></td>
-			<%-- 	</c:if> --%>
+
 			<td></td>
 			<td align="left">${ product.price }</td>
 			<td></td>
@@ -153,6 +148,25 @@ function fncGetList(currentPage){
 	<tr>
 		<td align="center">
 		   <input type="hidden" id="currentPage" name="currentPage" value=""/>
+		
+			<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
+			<%System.out.println("listProduct 내부 resultPage 확인출력 : "+resultPage); %>
+			<% if( resultPage.getCurrentPage() <= resultPage.getPageUnit() ){ %>
+					◀ 이전
+			<% }else{ %>
+					<a href="javascript:fncGetProductList('<%=resultPage.getCurrentPage()-1%>')">◀ 이전</a>
+			<% } %>
+
+			<%	for(int i=resultPage.getBeginUnitPage();i<= resultPage.getEndUnitPage() ;i++){	%>
+					<a href="javascript:fncGetProductList('<%=i %>');"><%=i %></a>
+			<% 	}  %>
+	
+			<% if( resultPage.getEndUnitPage() >= resultPage.getMaxPage() ){ %>
+					이후 ▶
+			<% }else{ %>
+					<a href="javascript:fncGetProductList('<%=resultPage.getEndUnitPage()+1%>')">이후 ▶</a>
+			<% } %>
+			/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
 		
 		<jsp:include page="../common/pageNavigator.jsp"/>
 		

@@ -68,28 +68,29 @@
 		</sql>
 		
 	<!-- SQL : SELECT LIST -->
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT prod_no , prod_name , prod_detail, reg_date, price
-											FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				prod_name = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_no = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				price = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY prod_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
+		<select id="getProductList" parameterType="search" resultMap="productSelectMap">
+			SELECT *
+					FROM  ( SELECT inner_table.* , ROWNUM AS row_seq
+									FROM     ( SELECT p.*, t.tran_status_code
+													FROM  product p, transaction t				
+													<where>
+														  p.prod_no = t.prod_no(+)
+														<if test="searchCondition!=null " >
+															<if test="searchCondition==0  and searchKeyword !=''  and searchKeyword != null">
+																	AND p.prod_name	like '%#{searchKeyword}%'
+															</if> 
+															<if test="searchCondition==1   and searchKeyword !=''  and searchKeyword != null ">
+																	AND p.prod_no = #{searchKeyword}
+															</if>  					
+															<if test="searchCondition==2  and searchKeyword !=''  and searchKeyword != null">
+																	AND p.price = #{searchKeyword}
+															</if>
+														</if>
+								  		           </where> 												 
+  										ORDER BY p.prod_no ) inner_table
+					WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
+  	</select>
 			
 		
 			
@@ -120,21 +121,31 @@
  	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT PROD_NO , PROD_NAME , PRICE
-						FROM product
-						<if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 				prod_name = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 				prod_no = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 2 and searchKeyword !='' ">
-										price = #{searchKeyword}
-								</if>
-							</where>
-						</if> ) countTable						
+	  	FROM (	SELECT 
+	  					p.prod_no as prod_no, 
+	  					p.prod_name as prod_name, 
+	  					p.prod_detail as prod_detail, 
+	  					p.manufacture_day as manufacture_day, 
+	  					p.price as price, 
+	  					p.image_file as image_file, 
+	  					p.reg_date as reg_date, 
+	  					t.tran_status_code as tran_status_code 
+					FROM product p, transaction t 
+					<where>
+						  p.prod_no = t.prod_no(+)
+						<if test="searchCondition!=null " >
+							<if test="searchCondition==0  and searchKeyword !=''  and searchKeyword != null">
+									AND p.prod_name	=	#{searchKeyword}
+							</if> 
+							<if test="searchCondition==1   and searchKeyword !=''  and searchKeyword != null ">
+									AND p.prod_no like #{searchKeyword}
+							</if>  					
+							<if test="searchCondition==2  and searchKeyword !=''  and searchKeyword != null">
+									AND p.price = #{searchKeyword}
+							</if>
+						</if>
+				   </where> 	) countTable											 
+					
 	 </select>
  
 </mapper>
