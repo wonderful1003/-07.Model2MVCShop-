@@ -101,7 +101,7 @@
   										FROM transaction
   										<if test="buyerId !='admin' ">
   										<!-- <if test="buyerId !='admin' "> -->
-										WHERE buyer_id = #{buyerId}									
+										WHERE buyer_id = #{buyer}									
 										</if>
   										ORDER BY tran_no ) inner_table
   						WHERE ROWNUM &lt;= #{search.endRowNum})

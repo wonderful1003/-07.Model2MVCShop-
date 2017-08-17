@@ -54,13 +54,13 @@ public class PurchaseServiceImpl implements PurchaseService{
 		purchaseDAO.updateTranCode(purchase);
 	}
 
-	public Map<String, Object> getPurchaseList(Search search, String buyerId) throws Exception {
+	public Map<String, Object> getPurchaseList(Search search, String buyer) throws Exception {
 		// TODO Auto-generated method stub
 		
 		Map map = new HashMap(); //HashMap	
 
 		map.put("search", search);
-		map.put("buyerId", buyerId);
+		map.put("buyer", buyer);
 
 		System.out.println("111111111111111111");
 		List<Purchase> list = purchaseDAO.getPurchaseList(map); // purchase 객체를 element로 받는 list 생성
@@ -78,7 +78,7 @@ public class PurchaseServiceImpl implements PurchaseService{
 
 		System.out.println("===================================");
 		System.out.println("search :" + search);
-		System.out.println("buyerId :" + buyerId);
+		System.out.println("buyer :" + buyer);
 		System.out.println("===================================");
 		return map;
 	}

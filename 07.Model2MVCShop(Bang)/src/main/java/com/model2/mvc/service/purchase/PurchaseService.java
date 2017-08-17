@@ -29,7 +29,7 @@ public interface PurchaseService {
 	public  void updateTranCode(Purchase purchase)  throws Exception;
 	
 	// 구매 item 목록
-	public  Map<String, Object> getPurchaseList(Search search, String buyerId) throws Exception;
+	public  Map<String, Object> getPurchaseList(Search search, String buyer) throws Exception;
 	
 	//
 	public  Map<String, Object> getSaleList(Search search) throws Exception; 
