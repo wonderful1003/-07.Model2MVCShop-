@@ -57,7 +57,7 @@ public class PurchaseServiceImpl implements PurchaseService{
 	public Map<String, Object> getPurchaseList(Search search, String buyerId) throws Exception {
 		// TODO Auto-generated method stub
 		
-		Map<String, Object> map = new HashMap<String, Object>(); //HashMap	
+		Map map = new HashMap(); //HashMap	
 
 		map.put("search", search);
 		map.put("buyerId", buyerId);

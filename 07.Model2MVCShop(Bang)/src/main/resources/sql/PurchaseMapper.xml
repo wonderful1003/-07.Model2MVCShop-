@@ -7,8 +7,7 @@
 		
 <mapper namespace="PurchaseMapper">
 	
-		<resultMap id="purchaseSelectMap" type="Purchase">
-			<result property="buyerId" 				column="BUYER_ID" 			jdbcType="VARCHAR"/>
+		<resultMap id="purchaseSelectMap" type="purchase">		
 			<result property="dlvyAddr" 			column="DEMAILADDR" 		jdbcType="VARCHAR"/>
 			<result property="dlvyDate" 			column="DLVY_DATE" 			jdbcType="DATE"/>
 			<result property="dlvyRequest" 			column="DLVY_REQUEST" 		jdbcType="VARCHAR"/>
@@ -18,9 +17,9 @@
 			<result property="receiverPhone" 		column="RECEIVER_PHONE" 	jdbcType="VARCHAR"/>
 			<result property="tranCode" 			column="TRAN_STATUS_CODE" 	jdbcType="VARCHAR"/>
 			<result property="tranNo" 				column="TRAN_NO" 			jdbcType="NUMERIC"/>
-		
+	
 		<association property="buyerId"	 			javaType="user">
-					<id property="userId" 			column="buyer_id" 			jdbcType="VACHAR" />
+					<id property="userId" 			column="buyer_id" 			jdbcType="VARCHAR" />
 				
 				<result property="userName"			column="user_name" 			jdbcType="VARCHAR" />
 				<result property="password" 		column="password" 			jdbcType="VARCHAR" />
@@ -44,7 +43,7 @@
 				<result property="regDate" 		column="REG_DATE" 						jdbcType="DATE"/>
 				<result property="proTranCode" 	column="tran_status_code" 				jdbcType="VARCHAR"/>
 		</association>
-	
+
 		</resultMap>
 		
 	
@@ -105,7 +104,7 @@
 										WHERE buyer_id = #{buyerId}									
 										</if>
   										ORDER BY tran_no ) inner_table
-  						WHERE ROWNUM &lt;= #{search.endRowNum} )
+  						WHERE ROWNUM &lt;= #{search.endRowNum})
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 					 <!-- WHERE ROWNUM &lt;= #{search.endRowNum} )
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} --> 

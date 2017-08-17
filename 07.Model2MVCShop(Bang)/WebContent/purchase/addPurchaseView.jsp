@@ -13,10 +13,10 @@
 
 <script type="text/javascript">
 
-function fncAddPurchase() {
+ function fncAddPurchase() {
 	document.addPurchase.submit();
 }
-
+ 
 </script>
 </head>
 
@@ -43,7 +43,7 @@ function fncAddPurchase() {
 	</tr>
 </table>
 
-<input type="hidden" name="prodNo" value="${product.prodNo}" } />
+
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
@@ -57,7 +57,7 @@ function fncAddPurchase() {
 		<td class="ct_write01" width="299">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					
+					<input type="hidden" name="prodNo" value="${product.prodNo}" />
 					<td width="105">${product.prodNo}</td>
 				</tr>
 			</table>

@@ -74,23 +74,23 @@ public class PurchaseController {
 	
 	//@RequestMapping("/addUser.do")
 	@RequestMapping( value="addPurchase", method=RequestMethod.POST )
-	public String addPurchase( @RequestParam("prodNo") int prodNo,
-												@RequestParam("buyerId") String buyerId,
-												@ModelAttribute("purchase") Purchase purchase,
+	public String addPurchase( //@RequestParam("prodNo") String prodNo,
+								//@RequestParam("buyerId") String buyerId,
+								@ModelAttribute("purchase") Purchase purchase,
 												Model model) throws Exception {
 
 		System.out.println("/purchase/addPurchase : POST");
-		//Business Logic
+		/*//Business Logic
 		
 		purchase.setBuyerId(userService.getUser(buyerId));
-		purchase.setPurchaseProd(productService.getProduct(prodNo));
+		//purchase.setPurchaseProd(productService.getProduct(prodNo));
 		purchase.setTranCode("1");
 		
 		
-		model.addAttribute("prodNo",prodNo);
+		//model.addAttribute("prodNo",prodNo);
 		model.addAttribute("purchase", purchase);
 		model.addAttribute("buyerId", buyerId);
-		purchaseService.addPurchase(purchase);
+		purchaseService.addPurchase(purchase);*/
 		
 		return "forward:/purchase/addPurchase.jsp";
 	}
@@ -127,7 +127,7 @@ public class PurchaseController {
 	
 	//@RequestMapping("/updateUserView.do")
 	//public String updateUserView( @RequestParam("userId") String userId , Model model ) throws Exception{
-	@RequestMapping( value="updatePurchaseView", method={RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping( value="updatePurchaseView", method=RequestMethod.GET)
 	public String updatePurchase( @RequestParam("tranNo") int tranNo , Model model ) throws Exception{
 
 		System.out.println("/purchase/updatePurchaseView ");

@@ -2,42 +2,6 @@
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- 
-
-<%@page import="com.model2.mvc.service.domain.Purchase"%>
-<%@page import="com.model2.mvc.common.Search"%>
-<%@page import="com.model2.mvc.service.domain.Product"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="com.model2.mvc.service.domain.User"%>
-
-<%
-	User user = (User)session.getAttribute("user");
-	HashMap<String,Object> map = (HashMap<String,Object>)request.getAttribute("map");
-	Search search = (Search)request.getAttribute("search");
-	
-	int total=0;
-	ArrayList<Product> productList=null;
-	ArrayList<Purchase> purchaseList=null;
-	if(map != null){
-		total=((Integer)map.get("count")).intValue();
-		productList=(ArrayList<Product>)map.get("productList");
-		purchaseList=(ArrayList<Purchase>)map.get("purchaseList");
-	}else{
-		System.out.println("map is null");
-	}
-	
-	int currentPage=search.getCurrentPage();
-	
-	int totalPage=0;
-	if(total > 0) {
-		totalPage= total / search.getPageUnit() ;
-		if(total%search.getPageUnit() >0)
-			totalPage += 1;
-	}
-%> --%>
-
-
 <html>
 <head>
 <title>구매 목록조회</title>
@@ -56,8 +20,8 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listPurchase.do" method="post">
-
+<form name="detailForm" action="/purchase/listPurchase.do" method="post">
+<form name="menu" value=${param.menu } type="hidden"/>
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"width="15" height="37"></td>
@@ -93,65 +57,40 @@
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-
-	
-	
-	<%-- <%	int no = productList.size(); 
-		for(int i = 0; i<productList.size(); i++){ %>
-	<tr class="ct_list_pop">
-		<td align="center">
-			<a href="/getPurchase.do?tranNo=<%=purchaseList.get(i).getTranNo()%>"><%=no--%></a>
-		<%-- </td>
-		<td></td>
-		<td align="left">
-			<a href="/getUser.do?userId=<%=user.getUserId()%>"><%=user.getUserId()%></a>
-		</td>
-		<td></td>
-		<td align="left"><%=user.getUserName() %></td>
-		<td></td>
-		<td align="left"><%=user.getPhone() %></td>
-		<td></td>
-		<td align="left">현재
-					<%=purchaseList.get(i).getTranCode() %>
-				상태 입니다.</td>
-		<td></td>
-		<td align="left">
-			
-		</td>
-	</tr> 
-	<%} %> --%>
-	
 	
 	<c:set var="i" value="0"/>
-		<c:forEach var="purchase" items="${purchaselist }">
-			<c:set var="i" value="${i+1 }"/>
-			<tr class="ct_list_pop">
+	<c:forEach var="purchase" items="${list}">
+		<c:set var="i" value="${i+1}"/>
+		<tr class="ct_list_pop">
 			<td align="center">
-				<c:if test="${purchase.tranCode eq 1 }">
-				<a href="/getPurchase.do?tranNo=${purchase.tranNo }"> ${i}</a>
+				<c:if test="${purchase.tranCode == '1' }">
+				<a href="/purchase/getPurchase?tranNo=${purchase.tranNo }"> ${i}</a>
 				</c:if>
-				<c:if test="${purchase.tranCode ne 1 }">
+				<c:if test="${purchase.tranCode != '1'}">
 				${i}
 				</c:if>
 			</td>
 			<td></td>
 			<td align="left">
-				<a href="/getUser.do?userId=${user.userId }"> ${user.userId }</a>
+				<a href="/user/getUser?userId=${purchase.buyerId.userId}"> ${purchase.buyerId.userId}</a>
 			</td>
 			<td></td>
-			<td align="left">${user.userName }</td>
+			<td align="left">${purchase.receiverName}</td>
 			<td></td>
-			<td align="left">${user.phone }</td>
+			<td align="left">${purchase.receiverPhone}</td>
 			<td></td>
 			<td align="left">현재
 						<c:choose>
-						<c:when test="${! empty purchase.tranCode && purchase.tranCode eq 1}">
+						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 1}"> --%>
+						<c:when test="${purchase.tranCode == '1'}">
 							구매완료
 						</c:when>
-						<c:when test="${! empty purchase.tranCode && purchase.tranCode eq 2}">
+						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 2}"> --%>
+						<c:when test="${purchase.tranCode == '2'}">
 							배송중
 						</c:when>
-						<c:when test="${! empty purchase.tranCode && purchase.tranCode eq 3}">
+						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 3}"> --%>
+						<c:when test="${purchase.tranCode == '3'}">
 							배송완료
 						</c:when>
 					</c:choose>
@@ -159,16 +98,14 @@
 					상태 입니다.</td>
 			<td></td>
 			<td align="left">	
-			<c:if test="${! empty purchase.tranCode && purchase.tranCode eq 2}">
-			<a href="updateTranCode.do?tranNo=${purchase.tranNo }&tranCode=3">물건도착</a>
+			<%-- <c:if test="${! empty purchase.tranCode && purchase.tranCode eq 2}"> --%>
+			<c:if test="${purchase.tranCode == '2'}">
+			<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo }&tranCode=3">물건도착</a>
 			</c:if>
-		</td>
-	</tr>
-	</c:forEach>
-	
-	
-	
-</table>
+			</td>
+		</tr>
+		</c:forEach>
+	</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 	<tr>

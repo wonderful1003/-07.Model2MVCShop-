@@ -13,8 +13,8 @@ public class Search {
 	//==> UserMapper.xml ÀÇ 
 	//==> <select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
 	//==> ÂüÁ¶
-	private int endRowNum;
-	private int startRowNum;
+//	private int endRowNum;
+//	private int startRowNum;
 	
 	///Constructor
 	public Search() {
@@ -62,7 +62,7 @@ public class Search {
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition="
 				+ searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+				+ ", pageSize=" + pageSize + ", endRowNum=" + getEndRowNum()
+				+ ", startRowNum=" + getStartRowNum() + "]";
 	}
 }
