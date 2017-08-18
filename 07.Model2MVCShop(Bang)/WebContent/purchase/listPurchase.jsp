@@ -20,7 +20,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/purchase/listPurchase.do" method="post">
+<form name="detailForm" action="/purchase/listPurchase" method="post">
 <form name="menu" value=${param.menu } type="hidden"/>
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -72,7 +72,7 @@
 			</td>
 			<td></td>
 			<td align="left">
-				<a href="/user/getUser?userId=${purchase.buyerId.userId}"> ${purchase.buyerId.userId}</a>
+				<a href="/user/getUser?userId=${buyer}"> ${buyer}</a>
 			</td>
 			<td></td>
 			<td align="left">${purchase.receiverName}</td>
@@ -80,6 +80,7 @@
 			<td align="left">${purchase.receiverPhone}</td>
 			<td></td>
 			<td align="left">ÇöÀç
+						<input type="text" value = "${purchase.tranCode == '1'}">
 						<c:choose>
 						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 1}"> --%>
 						<c:when test="${purchase.tranCode == '1'}">

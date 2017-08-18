@@ -184,9 +184,11 @@ public class PurchaseController {
 		System.out.println(user.getUserId());
 		System.out.println(search);
 		
+		System.out.println("여기가 문젠가 0");
 		search.setSearchKeyword(user.getUserId());
+		System.out.println("여기가 문젠가 1");
 		Map<String , Object> map=purchaseService.getPurchaseList(search, user.getUserId());
-		
+		System.out.println("여기가 문젠가 2");
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("resultPage : " +resultPage);
 		
