@@ -55,6 +55,7 @@ public class PurchaseDaoImpl implements PurchaseDAO{
 	@Override
 	public void addPurchase(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("¿©±â´ÂDAOIMPL"+ purchase);
 		sqlSession.insert("PurchaseMapper.addPurchase", purchase);
 	}
 

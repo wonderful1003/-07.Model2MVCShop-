@@ -80,7 +80,7 @@
 			<td align="left">${purchase.receiverPhone}</td>
 			<td></td>
 			<td align="left">ÇöÀç
-						<input type="text" value = "${purchase.tranCode == '1'}">
+						<input type="text" value = "${purchase.tranCode == '3'}">
 						<c:choose>
 						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 1}"> --%>
 						<c:when test="${purchase.tranCode == '1'}">

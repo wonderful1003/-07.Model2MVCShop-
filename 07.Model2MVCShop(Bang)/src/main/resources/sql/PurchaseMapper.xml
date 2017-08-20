@@ -15,7 +15,7 @@
 			<result property="paymentOption" 		column="PAYMENT_OPTION" 	jdbcType="CHAR"/>
 			<result property="receiverName" 		column="RECEIVER_NAME" 		jdbcType="VARCHAR"/>
 			<result property="receiverPhone" 		column="RECEIVER_PHONE" 	jdbcType="VARCHAR"/>
-			<result property="tranCode" 			column="TRAN_STATUS_CODE" 	jdbcType="VARCHAR"/>
+			<result property="tranCode" 			column="TRAN_STATUS_CODE" 	jdbcType="CHAR"/>
 			<result property="tranNo" 				column="TRAN_NO" 			jdbcType="NUMERIC"/>
 	
 		<association property="buyer"	 			javaType="user">
@@ -49,21 +49,22 @@
 	
 		
 		<insert id="addPurchase" parameterType="purchase">
-				INSERT
-				INTO transaction
-				VALUES (  
-								seq_transaction_tran_no.nextval, 
-								#{purchaseProd.prodNo}, 
-							    #{buyer.userId}, 
-							    #{paymentOption:CHAR}, 
-							    #{receiverName:VARCHAR}, 
-							    #{receiverPhone:VARCHAR}, 
-							    #{dlvyAddr:VARCHAR}, 
-							    #{dlvyRequest:VARCHAR}, 
-							    #{tranCode:CHAR},
-							    SYSDATE,
-							    #{dlvyDate,jdbcType=DATE})
-			</insert>
+		
+	 	INSERT
+		INTO transaction
+		VALUES(		seq_transaction_tran_no.nextval,
+							#{purchaseProd.prodNo:INTEGER},
+							#{buyer.userId:VARCHAR},
+							#{paymentOption:CHAR},
+							#{receiverName:VARCHAR},
+							#{receiverPhone:VARCHAR},
+							#{dlvyAddr:VARCHAR},
+							#{dlvyRequest:VARCHAR},
+							#{tranCode:CHAR},
+							sysdate,
+							#{dlvyDate,jdbcType=DATE}		 )
+	 			
+ 			</insert>
 			
  		<select id="getPurchase" parameterType="string" resultMap="purchaseSelectMap">
 				SELECT

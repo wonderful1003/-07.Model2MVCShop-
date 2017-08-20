@@ -74,23 +74,30 @@ public class PurchaseController {
 	
 	//@RequestMapping("/addUser.do")
 	@RequestMapping( value="addPurchase", method=RequestMethod.POST )
-	public String addPurchase( //@RequestParam("prodNo") String prodNo,
-								//@RequestParam("buyerId") String buyerId,
+	public String addPurchase( 	@RequestParam("prodNo") String prodNo,
+								@RequestParam("buyerId") String buyerId,
 								@ModelAttribute("purchase") Purchase purchase,
 												Model model) throws Exception {
 
 		System.out.println("/purchase/addPurchase : POST");
-		/*//Business Logic
-		
-		purchase.setBuyerId(userService.getUser(buyerId));
-		//purchase.setPurchaseProd(productService.getProduct(prodNo));
+		//Business Logic
+		System.out.println(userService.getUser(buyerId));
+		System.out.println(Integer.parseInt(prodNo));
+	
+		purchase.setBuyer(userService.getUser(buyerId));
+		int prodNoInt = Integer.parseInt(prodNo);
+		purchase.setPurchaseProd(productService.getProduct(prodNoInt));
 		purchase.setTranCode("1");
+		purchaseService.addPurchase(purchase);
+		System.out.println("purchase.getTranCode :" + purchase.getTranCode());
 		
-		
-		//model.addAttribute("prodNo",prodNo);
+		model.addAttribute("prodNo",prodNo);
 		model.addAttribute("purchase", purchase);
 		model.addAttribute("buyerId", buyerId);
-		purchaseService.addPurchase(purchase);*/
+		
+		System.out.println("prodNo : " + prodNo);
+		System.out.println("purchase : " + purchase);
+		System.out.println("buyerId : " + buyerId);
 		
 		return "forward:/purchase/addPurchase.jsp";
 	}

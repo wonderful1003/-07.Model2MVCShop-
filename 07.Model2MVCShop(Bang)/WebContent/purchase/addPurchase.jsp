@@ -21,12 +21,13 @@
 <table border=1>
 	<tr>
 		<td>물품번호</td>
-		<td>${product.prodNo}</td>
+		<td>${purchase.purchaseProd}</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자아이디</td>
-		<td>${buyer.userId}</td>
+		<input type="text" value="${buyer}">
+		<td>${purchase.buyer}</td>
 		<td></td>
 	</tr>
 	<tr>
@@ -46,6 +47,7 @@
 	</tr>
 	<tr>
 		<td>구매자주소</td>
+		<input type="text" value="${purchase.dlvyAddr}">
 		<td>${purchase.dlvyAddr}</td>
 		<td></td>
 	</tr>

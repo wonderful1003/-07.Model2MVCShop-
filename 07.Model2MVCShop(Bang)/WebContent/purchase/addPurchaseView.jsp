@@ -43,12 +43,13 @@
 	</tr>
 </table>
 
-
+<input type="hidden" name="prodNo" value="${product.prodNo}" />
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
+	
 	<tr>
 		<td width="300" class="ct_write">
 			상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
@@ -56,16 +57,17 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01" width="299">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<input type="hidden" name="prodNo" value="${product.prodNo}" />
+				<tr>				
 					<td width="105">${product.prodNo}</td>
 				</tr>
 			</table>
 		</td>
 	</tr>
-	<tr>
+
+ 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
+	
 	<tr>
 		<td width="104" class="ct_write">
 			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
@@ -73,6 +75,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${ product.prodName }</td>
 	</tr>
+	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
@@ -83,6 +86,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${ product.prodDetail }</td>
 	</tr>
+	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
@@ -91,6 +95,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${ product.manuDate }</td>
 	</tr>
+	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
@@ -99,6 +104,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${product.price}</td>
 	</tr>
+
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
@@ -118,7 +124,8 @@
 		<td class="ct_write01">${ user.userId }</td>
 		<input type="hidden" name="buyerId" value="${user.userId}" />
 	</tr>
-	<tr>
+	
+ 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
@@ -161,7 +168,7 @@
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverAddr" class="ct_input_g" 
+			<input 	type="text" name="dlvyAddr" class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20" 	value="${user.addr}" />
 		</td>
 	</tr>
@@ -172,7 +179,7 @@
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input		type="text" name="receiverRequest" 	class="ct_input_g" 
+			<input		type="text" name="dlvyRequest" 	class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>
@@ -183,15 +190,15 @@
 		<td width="104" class="ct_write">배송희망일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<input 	type="text" readonly="readonly" name="receiverDate" class="ct_input_g" 
+			<input 	type="text" readonly="readonly" name="dlvyDate" class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20"/>
 			<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
-						onclick="show_calendar('document.addPurchase.receiverDate', document.addPurchase.receiverDate.value)"/>
+						onclick="show_calendar('document.addPurchase.dlvyDate', document.addPurchase.dlvyDate.value)"/>
 		</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
+	</tr> 
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">

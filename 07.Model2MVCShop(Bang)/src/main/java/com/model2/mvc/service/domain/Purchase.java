@@ -23,7 +23,7 @@ public class Purchase {
 	public User getBuyer() {
 		return buyer;
 	}
-	public void setBuyer(User buyerId) {
+	public void setBuyer(User buyer) {
 		this.buyer = buyer;
 	}
 	public String getDlvyAddr() {
