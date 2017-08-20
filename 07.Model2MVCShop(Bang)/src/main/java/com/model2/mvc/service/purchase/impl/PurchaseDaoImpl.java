@@ -14,10 +14,10 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductDAO;
-import com.model2.mvc.service.purchase.PurchaseDAO;
+import com.model2.mvc.service.purchase.PurchaseDao;
 
 @Repository("purchaseDaoImpl")
-public class PurchaseDaoImpl implements PurchaseDAO{
+public class PurchaseDaoImpl implements PurchaseDao{
 
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
@@ -42,6 +42,7 @@ public class PurchaseDaoImpl implements PurchaseDAO{
 	@Override
 	public Purchase getPurchaseByProd(int prodNo) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("여기는 daoimpl에 getPurchaseByProd");
 		return sqlSession.selectOne("PurchaseMapper.getPurchaseByProd", prodNo);
 	}
 

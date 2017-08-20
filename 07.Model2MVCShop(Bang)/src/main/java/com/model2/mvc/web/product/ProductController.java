@@ -154,7 +154,11 @@ public class ProductController {
 		Map<String , Object> map=productService.getProductList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
+		System.out.println("resultPage : " + resultPage);
+		
+		Product product = new Product();
+		String proTranCode = product.getProTranCode();
+		System.out.println("proTranCode : " + proTranCode);
 		
 		// Model °ú View ¿¬°á
 		model.addAttribute("list", map.get("list"));

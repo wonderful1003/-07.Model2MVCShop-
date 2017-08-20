@@ -12,7 +12,8 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.purchase.PurchaseDAO;
+import com.model2.mvc.service.purchase.PurchaseDao;
+import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.purchase.PurchaseService;
 
 @Service("purchaseServiceImpl")
@@ -20,38 +21,41 @@ public class PurchaseServiceImpl implements PurchaseService{
 	
 	@Autowired
 	@Qualifier("purchaseDaoImpl")
-	private PurchaseDAO purchaseDAO;
+
 	
+	private PurchaseDao purchaseDao;
+	public void setPurchaseDao(PurchaseDao purchaseDao) {
+		this.purchaseDao = purchaseDao;
+	}
+
 	public PurchaseServiceImpl() {
 		// TODO Auto-generated constructor stub
-		//purchaseDAO = new PurchaseDaoImpl();
+		//purchaseDao = new purchaseDaoImpl();
 	}
 
 	public void addPurchase(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
-		purchaseDAO.addPurchase(purchase);
+		purchaseDao.addPurchase(purchase);
 	}
 	
 	public Purchase getPurchase(int tranNo) throws Exception {
 		// TODO Auto-generated method stub
-		return purchaseDAO.getPurchase(tranNo);
+		return purchaseDao.getPurchase(tranNo);
 	}
 
 	public Purchase getPurchaseByProd(int prodNo) throws Exception {
 		// TODO Auto-generated method stub
-		Purchase purchase = new Purchase();
-		purchase.setPurchaseProd((new ProductServiceImpl().getProduct(prodNo)));
-		return purchase;
+		return purchaseDao.getPurchaseByProd(prodNo);
 	}
 	
 	public void updatePurchase(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
-		purchaseDAO.updatePurchase(purchase);
+		purchaseDao.updatePurchase(purchase);
 	}
 
 	public void updateTranCode(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
-		purchaseDAO.updateTranCode(purchase);
+		purchaseDao.updateTranCode(purchase);
 	}
 
 	public Map<String, Object> getPurchaseList(Search search, String buyer) throws Exception {
@@ -63,9 +67,9 @@ public class PurchaseServiceImpl implements PurchaseService{
 		map.put("buyer", buyer);
 
 		System.out.println("111111111111111111");
-		List<Purchase> list = purchaseDAO.getPurchaseList(map); // purchase 객체를 element로 받는 list 생성
+		List<Purchase> list = purchaseDao.getPurchaseList(map); // purchase 객체를 element로 받는 list 생성
 		System.out.println("222222222222222222");
-		int totalCount = purchaseDAO.getTotalCount(search);// totalCount는 getTotalCount method를 이용하여 return 된 값을 대입
+		int totalCount = purchaseDao.getTotalCount(search);// totalCount는 getTotalCount method를 이용하여 return 된 값을 대입
 		System.out.println("3333333333333333333");
 
 		

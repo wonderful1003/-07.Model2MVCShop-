@@ -71,9 +71,16 @@
 				DEMAILADDR, DLVY_DATE, DLVY_REQUEST, ORDER_DATA, 
 				FROM transaction
 				WHERE tran_no = #{value}
-			</select>
+		</select>
 		
- 			
+		<select id = "getPurchaseByProd" parameterType="int" resultMap="purchaseSelectMap">
+  			SELECT 
+  				t.*, p.*, u.* 
+  			FROM  transaction t, product p, users u 
+  			WHERE  t.prod_no= #{value} 
+  			AND t.prod_no=p.prod_no AND t.buyer_id=u.user_id
+  		</select>
+		 			
 		<update id="updatePurchase" parameterType="purchase">
 			UPDATE Product
 			<set>
@@ -86,6 +93,14 @@
 			WHERE prod_no = #{prodNo}
 		</update>
 		
+		 <update id="updateTranCode" parameterType="purchase" >
+  				UPDATE transaction
+  			<set>
+    			<if test="tranCode !=null">tran_status_code	=#{tranCode},	
+    			</if>
+  			</set>
+				WHERE tran_no = #{tranNo}  		
+  		</update>
 		
 		<delete id="removePurchase" parameterType="java.lang.String">
 			DELETE

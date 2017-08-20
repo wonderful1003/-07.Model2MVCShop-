@@ -79,24 +79,30 @@
 			<td></td>
 			<td align="left">${purchase.receiverPhone}</td>
 			<td></td>
-			<td align="left">현재
-						<input type="text" value = "${purchase.tranCode == '3'}">
-						<c:choose>
-						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 1}"> --%>
-						<c:when test="${purchase.tranCode == '1'}">
-							구매완료
-						</c:when>
-						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 2}"> --%>
-						<c:when test="${purchase.tranCode == '2'}">
-							배송중
-						</c:when>
-						<%-- <c:when test="${! empty purchase.tranCode && purchase.tranCode eq 3}"> --%>
-						<c:when test="${purchase.tranCode == '3'}">
-							배송완료
-						</c:when>
-					</c:choose>
-						<!-- ${purchase.tranCode} -->
-					상태 입니다.</td>
+			
+			<td align="left">현재	
+				<c:choose>
+					
+					<c:when test="${purchase.tranCode == '1  '}">
+						구매 완료
+					</c:when>
+					
+					<c:when test="${purchase.tranCode == '2  '}">
+						배송중
+					</c:when>
+
+					<c:when test="${purchase.tranCode == '3  '}">
+						배송완료
+					</c:when>
+				
+					<c:otherwise>
+						purchase.tranCode가 1 ~3 이 아닙니다.
+					</c:otherwise>
+			
+				</c:choose>
+						
+					상태 입니다.
+			</td>
 			<td></td>
 			<td align="left">	
 			<%-- <c:if test="${! empty purchase.tranCode && purchase.tranCode eq 2}"> --%>

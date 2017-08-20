@@ -115,10 +115,8 @@ function fncGetList(currentPage){
 			<td align="Right">${ product.price } 원 </td>			
 			<td></td>
 			<td align="Center">${product.regDate}</td>
-			<td></td>		
-			
-			<td align="center">	
-		
+			<td></td>	
+			<td align="left">	
 				<c:if test="${empty product.proTranCode}">
 						판매중
 				</c:if>
@@ -127,7 +125,8 @@ function fncGetList(currentPage){
 					<c:if test="${sessionScope.user.role=='admin'}">
 						<c:choose >
 							<c:when test="${product.proTranCode=='1  ' }">
-								구매완료 &nbsp; <a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+								구매완료 &nbsp; 
+								<a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
 							</c:when>
 	
 							<c:when test="${product.proTranCode=='2  ' }">

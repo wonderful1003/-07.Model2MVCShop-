@@ -162,7 +162,7 @@ public class PurchaseController {
 	
 	//@RequestMapping("/updatePurchase.do") // '수정' button 누르면, // 주의.....잘보시게....
 	@RequestMapping( value="updateTranCode", method=RequestMethod.GET )
-	public String updateTranCode(@ModelAttribute("purchsae") Purchase purchase, 
+	public String updateTranCode(@ModelAttribute("purchase") Purchase purchase, 
 									@RequestParam("prodNo") int prodNo,
 									 Model model ) throws Exception{
 		
@@ -172,6 +172,27 @@ public class PurchaseController {
 		purchase = purchaseService.getPurchaseByProd(prodNo);
 		purchaseService.updateTranCode(purchase);
 	
+		return "redirect:/product/listProduct";
+	}
+	
+	@RequestMapping( value="updateTranCodeByProd", method=RequestMethod.GET )
+	public String updateTranCodeByProd(@RequestParam("prodNo") int prodNo,
+											@RequestParam("tranCode") String tranCode,
+											Model model) throws Exception{
+		System.out.println("/purchase/updateTranCodeByProd : GET");
+		
+		System.out.println("1 여기가 문젠가 prodNo : " + prodNo);
+		Purchase purchase = purchaseService.getPurchaseByProd(prodNo);
+		System.out.println("2 여기가 문젠가 tranCode : " );
+		purchase.setTranCode(tranCode);
+		System.out.println("3 여기가 문젠가 purchase : " + purchase);
+		purchaseService.updatePurchase(purchase);
+		
+		System.out.println(purchase.getTranCode());
+		System.out.println(purchase);
+		
+		model.addAttribute("menu", "manage");
+
 		return "redirect:/product/listProduct";
 	}
 	

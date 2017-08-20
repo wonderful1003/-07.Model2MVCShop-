@@ -8,7 +8,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 
-public interface PurchaseDAO {
+public interface PurchaseDao {
 	
 	// 구매한 item 찾기 by tranNo
 	public  Purchase getPurchase(int tranNo) throws Exception; 
