@@ -15,12 +15,12 @@
 
 <script type="text/javascript">
  
-/* 	 function fncAddPurchase(){
+ 	 function fncAddPurchase(){
 			//Form 유효성 검증
-		 	var receiverName = document.detailForm.receiverName.value;
-			var receiverPhone = document.detailForm.receiverPhone.value;
-			var dlvyAddr = document.detailForm.dlvyAddr.value;
-			var dlvyDate = document.detailForm.dlvyDate.value;
+		 	var receiverName = document.addPurchase.receiverName.value;
+			var receiverPhone = document.addPurchase.receiverPhone.value;
+			var dlvyAddr = document.addPurchase.dlvyAddr.value;
+			var dlvyDate = document.addPurchase.dlvyDate.value;
 	
 			if(receiverName == null || receiverName.length<1){
 				alert("구매자이름은 반드시 입력하여야 합니다.");
@@ -39,22 +39,22 @@
 				return;
 			}
 	
-			document.detailForm.action='/purchase/addPurchase';
-			document.detailForm.submit();
+			document.addPurchase.action='/purchase/addPurchase';
+			document.addPurchase.submit();
 		}
 	
 	 
-		function resetData(){
-			document.detailForm.reset();
-		}
-	 */ 
+	function resetData(){
+		document.addPurchase.reset();
+	}
+	 
 	 
 </script>
 </head>
 
 <body>
 
-<form name="addPurchase" method="post" action="/purchase/addPurchase">
+<form name="addPurchase" method="post" > <!-- action="/purchase/addPurchase"> -->
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
