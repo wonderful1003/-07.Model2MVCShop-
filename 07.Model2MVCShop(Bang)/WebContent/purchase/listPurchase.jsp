@@ -105,8 +105,7 @@
 			</td>
 			<td></td>
 			<td align="left">	
-			<%-- <c:if test="${! empty purchase.tranCode && purchase.tranCode eq 2}"> --%>
-			<c:if test="${purchase.tranCode == '2'}">
+			<c:if test="${purchase.tranCode == '2  '}">
 			<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo }&tranCode=3">¹°°ÇµµÂø</a>
 			</c:if>
 			</td>

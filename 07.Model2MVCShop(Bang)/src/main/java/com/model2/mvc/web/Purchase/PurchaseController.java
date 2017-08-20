@@ -141,6 +141,7 @@ public class PurchaseController {
 		//Business Logic
 		Purchase purchase = purchaseService.getPurchase(tranNo);
 		// Model 과 View 연결
+		
 		purchase.setDlvyDate(purchase.getDlvyDate().substring(0, 10).replaceAll("-", ""));
 		
 		model.addAttribute("purchase", purchase);
@@ -163,13 +164,13 @@ public class PurchaseController {
 	//@RequestMapping("/updatePurchase.do") // '수정' button 누르면, // 주의.....잘보시게....
 	@RequestMapping( value="updateTranCode", method=RequestMethod.GET )
 	public String updateTranCode(@ModelAttribute("purchase") Purchase purchase, 
-									@RequestParam("prodNo") int prodNo,
+									//@RequestParam("prodNo") int prodNo,
 									 Model model ) throws Exception{
 		
 		System.out.println("/purchase/updateTranCode : GET");
 		//Business Logic
 		model.addAttribute("menu", "manage");
-		purchase = purchaseService.getPurchaseByProd(prodNo);
+		//purchase = purchaseService.getPurchaseByProd(prodNo);
 		purchaseService.updateTranCode(purchase);
 	
 		return "redirect:/product/listProduct";
@@ -183,16 +184,16 @@ public class PurchaseController {
 		
 		System.out.println("1 여기가 문젠가 prodNo : " + prodNo);
 		Purchase purchase = purchaseService.getPurchaseByProd(prodNo);
-		System.out.println("2 여기가 문젠가 tranCode : " );
+		System.out.println("2 여기가 문젠가 tranCode : " + tranCode);
 		purchase.setTranCode(tranCode);
 		System.out.println("3 여기가 문젠가 purchase : " + purchase);
+		purchase.setDlvyDate(purchase.getDlvyDate().substring(0, 10).replaceAll("-", ""));
 		purchaseService.updatePurchase(purchase);
 		
-		System.out.println(purchase.getTranCode());
-		System.out.println(purchase);
+		System.out.println("4 여기가 문젠가 purchase : " + purchase.getTranCode());
 		
 		model.addAttribute("menu", "manage");
-
+		System.out.println("5 여기가 문젠가 purchase : " + purchase);
 		return "redirect:/product/listProduct";
 	}
 	

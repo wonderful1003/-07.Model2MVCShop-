@@ -82,16 +82,18 @@
   		</select>
 		 			
 		<update id="updatePurchase" parameterType="purchase">
-			UPDATE Product
-			<set>
-					PROD_NAME = #{prodName},
-					IMAGE_FILE = #{fileName} ,
-					MANUFACTURE_DAY = #{manuDate}, 
-					PROD_DETAIL = #{prodDetail} ,
-					PRICE = #{price:INTEGER}						
-			</set>
-			WHERE prod_no = #{prodNo}
-		</update>
+  			UPDATE transaction
+  			<set>
+	    		<if test="paymentOption !=null">	payment_option		=#{paymentOption},	</if>
+	  			<if test="receiverName !=null">	  	receiver_name		=#{receiverName},	</if>
+	  			<if test="receiverPhone !=null">  	receiver_phone		=#{receiverPhone},	</if> 
+	  			<if test="dlvyAddr !=null">			DEMAILADDR			=#{dlvyAddr},		</if> 
+	  			<if test="dlvyRequest != null">	 	dlvy_request		=#{dlvyRequest}, 	</if> 					
+	  			<if test="dlvyDate != null"> 		dlvy_date			=#{dlvyDate}, 		</if>
+	  			<if test="tranCode != null"> 		TRAN_STATUS_CODE	=#{tranCode} 		</if> 	 	
+  			</set>
+			WHERE tran_no = #{tranNo}  		
+  		</update>
 		
 		 <update id="updateTranCode" parameterType="purchase" >
   				UPDATE transaction
