@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.product.ProductDAO;
+import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.product.ProductService;
 
 @Service("productServiceImpl")
@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService{
 	///Field
 	@Autowired
 	@Qualifier("productDaoImpl")
-	private ProductDAO productDao;
+	private ProductDao productDao;
 	
 	///Constructor
 	public ProductServiceImpl() {
@@ -33,11 +33,11 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.addProduct(product);
 	}
 
-	public ProductDAO getProductDao() {
+	public ProductDao getProductDao() {
 		return productDao;
 	}
 
-	public void setProductDao(ProductDAO productDao) {
+	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
 

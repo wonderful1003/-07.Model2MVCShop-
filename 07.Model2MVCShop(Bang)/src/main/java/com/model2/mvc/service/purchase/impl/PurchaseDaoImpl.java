@@ -13,7 +13,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
-import com.model2.mvc.service.product.ProductDAO;
+import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.purchase.PurchaseDao;
 
 @Repository("purchaseDaoImpl")

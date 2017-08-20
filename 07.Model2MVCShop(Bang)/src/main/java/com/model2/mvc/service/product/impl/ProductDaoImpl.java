@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.product.ProductDAO;
+import com.model2.mvc.service.product.ProductDao;
 
 @Repository("productDaoImpl")
-public class ProductDaoImpl implements ProductDAO{
+public class ProductDaoImpl implements ProductDao{
 
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
